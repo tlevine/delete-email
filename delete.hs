@@ -11,17 +11,11 @@ main = do
   let username   = args !! 1
   let password   = args !! 2
   
-  putStrLn password
-
-
-{-
-nothing = do
   con <- connectIMAP imapServer
   login con username password
   mboxes <- list con
   mapM print mboxes
   select con "INBOX"
   msgs <- search con [ALLs]
-  mapM_ (\x -> print x) (take 4 msgs)
-  forM_ (take 4msgs) (\x -> fetch con x >>= print)
--}
+  mapM_ (\x -> store con x $ PlusFlags [Deleted]) (take 4 msgs)
+  -- forM_ (take 4msgs) (\x -> fetch con x >>= print)
