@@ -6,11 +6,18 @@ def login(server, username, password):
     m.login(username, password)
     return m
 
-def delete_server_messages(m):
+def select_and_count(m, folder):
+    return '%s messages in %s' % (m.select(folder)[1][0], folder)
+
+def delete_server_messages(m, folder, chunk_size = 100):
+    select_and_count(m, folder)
     typ, data = m.search(None, 'ALL')
-    for num in data[0].split():
+    for i, num in enumerate(data[0].split()):
+        if i % chunk_size == 0:
+            # So we can see the progress
+            m.expunge()
+            print(select_and_count(m, folder))
         m.store(num, '+FLAGS', '\\Deleted')
-    m.expunge()
 
 if __name__ == '__main__':
     import sys
@@ -18,6 +25,5 @@ if __name__ == '__main__':
     folder = sys.argv[4] if len(sys.argv) > 4 else 'INBOX'
 
     m = login(server, username, password)
-    m.select(folder)
-    delete_server_messages(m)
+    delete_server_messages(m, folder)
     m.close()
