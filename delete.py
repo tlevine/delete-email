@@ -7,7 +7,7 @@ def login(server, username, password):
     return m
 
 def select_and_count(m, folder):
-    return '%s messages in %s' % (m.select(folder)[1][0], folder)
+    return 'There remain %s messages in %s.' % (m.select(folder)[1][0].decode('ascii'), folder)
 
 def delete_server_messages(m, folder, chunk_size = 100):
     select_and_count(m, folder)
