@@ -17,5 +17,6 @@ main = do
   mapM print mboxes
   select con "INBOX"
   msgs <- search con [ALLs]
-  mapM_ (\x -> store con x $ PlusFlags [Deleted]) (take 4 msgs)
-  -- forM_ (take 4msgs) (\x -> fetch con x >>= print)
+  uidNext con
+  -- mapM_ (\x -> print x) (take 4 msgs)
+  -- mapM_ (\x -> store con x $ PlusFlags [Deleted]) (take 4 msgs)
