@@ -4,15 +4,17 @@ import qualified Data.ByteString.Char8 as BS
 import Control.Monad
 import System.Environment ( getArgs )
 
-imapServer = ""
-username = ""
-password = ""
-
 main = do
   args <- getArgs
-  putStrLn $ unlines args
+
+  let imapServer = args !! 0
+  let username   = args !! 1
+  let password   = args !! 2
+  
+  putStrLn password
 
 
+{-
 nothing = do
   con <- connectIMAP imapServer
   login con username password
@@ -22,3 +24,4 @@ nothing = do
   msgs <- search con [ALLs]
   mapM_ (\x -> print x) (take 4 msgs)
   forM_ (take 4msgs) (\x -> fetch con x >>= print)
+-}
